@@ -24,3 +24,32 @@ por ficheiros com determinadas propriedades.
 # Plano
 
 ❌ Perceber o que é para fazer
+
+## Iteração 1
+
+### Requisito
+
+Tamanho, nome e data dos diretorios e sub-diretorios inseridos diretamente no script
+na interface pretendida.
+
+- [ ] Listar diretorios e sub-diretorios
+- [ ] Informação dos diretorios
+- [ ] Fazer interface
+
+## Iteração 2
+
+### Requisitos
+
+Leitura dos argumentos e opções
+
+O script [spacecheck](https://github.com/guilherme096/storage_monitor/blob/main/spacecheck.sh)
+deve tratar de forma correta ficheiros e diretorias que contenham
+espaços no seu nome. Sempre que, por alguma razão (falta de permissões, por exemplo), não seja
+possível aceder a uma diretoria ou determinar o tamanho de um ficheiro numa diretoria, o espaço
+ocupado pelos ficheiros dessa diretoria deve ser assinalado com NA.
+
+- [ ] Leitura do diretorio atual
+- [ ] Leitura do diretorio como argumento
+- [ ] Opções
+
+## Inicio de escrita do relatório
