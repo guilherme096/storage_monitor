@@ -13,3 +13,10 @@ por ficheiros com determinadas propriedades.
 - **-r** - Inverter a ordem de visualização;
 - **-a** - Ordenar por nome;
 - **-l** - Limite de linhas da tabela;
+
+## Resources
+
+- [awk]('https://www.cyberciti.biz/faq/bash-scripting-using-awk/')
+- [bc]('https://www.geeksforgeeks.org/bc-command-linux-examples/')
+- [du]('https://www.geeksforgeeks.org/du-command-linux-examples/')
+- [getopts]('https://www.stackchief.com/tutorials/Bash%20Tutorial%3A%20getopts')
