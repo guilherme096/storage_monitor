@@ -1,9 +1,15 @@
 # Storage Management
 
-## Resumo do Enunciado
+## Funcionalidade
 
-O objetivo do trabalho é o desenvolvimento de scripts em bash que permitem monitorizar o
-espaço ocupado em disco, e a sua variação ao longo do tempo, por ficheiros com determinadas
-propriedades, facilitando assim a gestão do armazenamento. Estas ferramentas permitem visualizar o
-total do espaço ocupado em disco (em bytes) por todos os ficheiros selecionados em todas as diretorias
-passadas como parâmetro e nas suas descendentes.
+Monitorizar o espaço ocupado em disco, e a sua variação ao longo do tempo,
+por ficheiros com determinadas propriedades.
+
+## Usage
+
+- **-n** - Seleção dos ficheiros a contabilizar;
+- **-d** - Data máxima dos ficheiros a contabilizar;
+- **-s** - Tamanho mínimo dos ficheiros a contabilizar;
+- **-r** - Inverter a ordem de visualização;
+- **-a** - Ordenar por nome;
+- **-l** - Limite de linhas da tabela;
