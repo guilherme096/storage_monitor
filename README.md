@@ -16,6 +16,7 @@ por ficheiros com determinadas propriedades.
 
 ## Resources
 
+- [stat](https://www.geeksforgeeks.org/stat-command-in-linux-with-examples/)
 - [awk](https://www.cyberciti.biz/faq/bash-scripting-using-awk/)
 - [bc](https://www.geeksforgeeks.org/bc-command-linux-examples/)
 - [du](https://www.geeksforgeeks.org/du-command-linux-examples/)
