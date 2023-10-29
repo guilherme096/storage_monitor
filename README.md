@@ -47,7 +47,7 @@ You don't need to exit the terminal for changes in the code to be reflected in t
 Tamanho, nome e data dos diretorios e sub-diretorios inseridos diretamente no script
 na interface pretendida.
 
-- [ ] Listar diretorios e sub-diretorios
+- [x] Listar diretorios e sub-diretorios
 - [ ] Informação dos diretorios
 - [ ] Fazer interface
 
