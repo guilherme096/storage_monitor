@@ -6,6 +6,8 @@ dir=$(pwd)
 # find only dirs and subdirs
 items=$(find $dir -type d)
 
+
+
 # gets the size of one item
 get_size(){
     item=$1

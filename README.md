@@ -48,7 +48,7 @@ Tamanho, nome e data dos diretorios e sub-diretorios inseridos diretamente no sc
 na interface pretendida.
 
 - [x] Listar diretorios e sub-diretorios
-- [ ] Informação dos diretorios
+- [x] Informação dos diretorios
 - [ ] Fazer interface
 
 ## Iteração 2
