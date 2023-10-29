@@ -5,6 +5,20 @@
 Monitorizar o espaço ocupado em disco, e a sua variação ao longo do tempo,
 por ficheiros com determinadas propriedades.
 
+## How to Run
+
+First you need to install docker and docker-compose
+
+```
+brew install docker
+brew install docker-compose
+```
+
+Then you `chmod +x ./executer.sh` and every time you run `./executer` the container will start and you'll be able to access the terminal. The directory will be
+/app and the project files will be there.
+
+You don't need to exit the terminal for changes in the code to be reflected in the virtual environment.
+
 ## Usage
 
 - **-n** - Seleção dos ficheiros a contabilizar;
