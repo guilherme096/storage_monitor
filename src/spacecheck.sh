@@ -1,17 +1,25 @@
 #!/bin/bash
 
 # variables
-dir=$(pwd)
+dir="./samples/"
 
 # find only dirs and subdirs
 items=$(find $dir -type d)
 
+flags=""
+
+regex=""
 
 
 # gets the size of one item
 get_size(){
     item=$1
     size=$(du -s -b $item | awk '{print $1}')
+}
+
+# interface
+interface(){
+    echo "SIZE     NAME    $flags $regex $dir"
 }
 
 # lists items in the items variable with their size
@@ -23,4 +31,8 @@ list_items(){
     done
 }
 
-list_items
+main(){
+    interface
+    list_items
+}
+main

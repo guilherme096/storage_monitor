@@ -49,7 +49,7 @@ na interface pretendida.
 
 - [x] Listar diretorios e sub-diretorios
 - [x] Informação dos diretorios
-- [ ] Fazer interface
+- [x] Fazer interface
 
 ## Iteração 2
 
