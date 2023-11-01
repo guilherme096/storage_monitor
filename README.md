@@ -63,8 +63,14 @@ espaços no seu nome. Sempre que, por alguma razão (falta de permissões, por e
 possível aceder a uma diretoria ou determinar o tamanho de um ficheiro numa diretoria, o espaço
 ocupado pelos ficheiros dessa diretoria deve ser assinalado com NA.
 
-- [ ] Leitura do diretorio atual
-- [ ] Leitura do diretorio como argumento
-- [ ] Opções
+#### Gui
+
+- [x] Verificar cada Flag
+- [ ] Lidar com cada Flag
+
+#### Maria
+
+- [ ] Receber diretorio como argumento
+- [ ] Lidar com diretorios não existentes
 
 ## Inicio de escrita do relatório
