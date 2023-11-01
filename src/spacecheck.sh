@@ -6,6 +6,7 @@ dir="./samples/"
 # find only dirs and subdirs
 items=$(find $dir -type d)
 
+valid_flags="-n -d -s -r -a -l"
 flags=""
 
 regex=""
