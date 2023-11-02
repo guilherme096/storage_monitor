@@ -1,10 +1,7 @@
 #!/bin/bash
 
-# variables
 dir="./samples/"
-
-# find only dirs and subdirs
-items=$(find $dir -type d)
+items=""
 
 
 n_flag=0
@@ -16,18 +13,16 @@ l_flag=0
 regex=""
 
 # get flags
-while getopts 'ndslr' opt; do
+while getopts 'n:dslr' opt; do
     case $opt in
-        n) n_flag=1;;
+        n) n_flag=1; regex="$OPTARG";;
         d) d_flag=1;;
         s) s_flag=1;;
         l) l_flag=1;;
-        r) r_flag=1; regex=$OPTARG;;
-        \?) echo "Invalid option: -$OPTARG" >&2;;
+        r) r_flag=1;;
+        \?) echo "Invalid option: -$OPTARG" >&2;; # TODO: stop program
     esac
 done
-
-
 
 # gets the size of one item
 get_size(){
@@ -38,6 +33,14 @@ get_size(){
 # interface
 interface(){
     echo "SIZE     NAME    $flags $regex $dir"
+}
+
+get_items(){
+    if [ $n_flag -eq 1 ]; then
+        items=$(find "$dir" -type f -regex "$regex")
+    else
+        items=$(find "$dir" -type f)
+    fi
 }
 
 # lists items in the items variable with their size
@@ -51,6 +54,7 @@ list_items(){
 
 main(){
     interface
+    get_items
     list_items
 }
 main
