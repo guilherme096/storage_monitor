@@ -26,8 +26,15 @@ done
 
 # gets the size of one item
 get_size(){
-    item=$1
-    size=$(du -s -b $item | awk '{print $1}')
+      item=$1
+  if [ -d "$item" ]; then
+      if [ -n "$regex" ]; then
+          size=$(find "$item" -type f -regex "$regex" -exec du -b {} + | awk '{s+=$1} END {print s}')
+      else
+          size=$(du -sb "$item" | cut -f1)
+      fi
+  fi
+
 }
 
 # interface
@@ -36,11 +43,7 @@ interface(){
 }
 
 get_items(){
-    if [ $n_flag -eq 1 ]; then
-        items=$(find "$dir" -type f -regex "$regex")
-    else
-        items=$(find "$dir" -type f)
-    fi
+    items=$(find "$dir" -type d)
 }
 
 # lists items in the items variable with their size
