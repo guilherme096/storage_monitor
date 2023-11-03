@@ -34,7 +34,12 @@ get_size(){
     if [ -n "$date" ]; then
       find_command+=" -newermt \"$date\""
     fi
-    size=$(eval "$find_command" | xargs du -b | awk '{s+=$1} END {print s}')
+    files=$(eval "$find_command")
+
+    size="NA"
+    if [ -n "$files" ]; then
+        size=$(echo "$files" | xargs du -b | awk '{sum+=$1} END {print sum}')
+    fi
 }
 
 # interface

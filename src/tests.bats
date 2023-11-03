@@ -47,3 +47,20 @@ executable=./spacecheck.sh
 
   [ "$output_without_spaces" = "$expected_output_without_spaces" ]
 }
+
+
+@test "Date and Regex: Oct 30 10:00 .*text" {
+  run $executable -d "Sep 10 10:00" -n ".*txt"
+
+  [ "$status" -eq 0 ]
+
+  output_without_spaces=$(echo "$output" | tr -d '[:space:]')
+expected_output_without_spaces="SIZENAME.*txtSep1010:00./samples/8787./samples/NA./samples/dir1NA./samples/dir1/sub1"
+
+  if [ "$output_without_spaces" != "$expected_output_without_spaces" ]; then
+    echo "$output"
+    echo "$expected_output_without_spaces"
+  fi
+
+  [ "$output_without_spaces" = "$expected_output_without_spaces" ]
+}
