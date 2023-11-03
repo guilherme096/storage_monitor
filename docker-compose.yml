@@ -4,5 +4,3 @@ services:
     image: fedora:39
     volumes:
       - ./src:/app
-    command: tail -f /dev/null
-
