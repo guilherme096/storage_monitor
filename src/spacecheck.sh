@@ -1,7 +1,6 @@
 #!/bin/bash
 
 dir="./samples/"
-items=""
 
 n_flag=0
 d_flag=0
@@ -9,13 +8,15 @@ s_flag=0
 r_flag=0
 l_flag=0
 
+items=""
 regex=""
+date=""
 
 # get flags
-while getopts 'n:dslr' opt; do
+while getopts 'n:d:slr' opt; do
     case $opt in
         n) n_flag=1; regex="$OPTARG";;
-        d) d_flag=1;;
+        d) d_flag=1; date="$OPTARG";;
         s) s_flag=1;;
         l) l_flag=1;;
         r) r_flag=1;;
@@ -25,24 +26,29 @@ done
 
 # gets the size of one item
 get_size(){
-      item=$1
-  if [ -d "$item" ]; then
-      if [ -n "$regex" ]; then
-          size=$(find "$item" -type f -regex "$regex" -exec du -b {} + | awk '{s+=$1} END {print s}')
-      else
-          size=$(du -sb "$item" | cut -f1)
-      fi
-  fi
-
+  item=$1
+    find_command="find \"$item\" -type f"
+    if [ -n "$regex" ]; then
+        find_command+=" -regex \"$regex\""
+    fi
+    if [ -n "$date" ]; then
+      find_command+=" -newermt \"$date\""
+    fi
+    size=$(eval "$find_command" | xargs du -b | awk '{s+=$1} END {print s}')
 }
 
 # interface
 interface(){
-    echo "SIZE     NAME    $flags $regex $dir"
+    echo "SIZE     NAME    $flags $regex $date $dir"
 }
 
-get_items(){
-    items=$(find "$dir" -type d)
+get_dirs(){
+    if [ "$d_flag" -eq 1 ]; then
+        items=$(find "$dir" -type d -newermt "$date")
+    else
+        items=$(find "$dir" -type d)
+    fi
+
 }
 
 # lists items in the items variable with their size
@@ -56,7 +62,7 @@ list_items(){
 
 main(){
     interface
-    get_items
+    get_dirs
     list_items
 }
 main
