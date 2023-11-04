@@ -86,13 +86,14 @@ expected_output_without_spaces="SIZENAME.*txtSep1010:00./samples8787./samplesNA.
 }
 
 
-@test "Min Size and Regex 9000" {
-  run $executable -s "9000" -n ".*txt" $dir
+@test "Reverse Order" {
+  run $executable -r $dir
 
   [ "$status" -eq 0 ]
 
   output_without_spaces=$(echo "$output" | tr -d '[:space:]')
-  expected_output_without_spaces="SIZENAME.*txt./samplesNA./samplesNA./samples/dir1NA./samples/dir1/sub1"
+  expected_output_without_spaces="SIZENAME./samples198814./samples/dir1/sub1397628./samples/dir1605229./samples"
+
 
 
   if [ "$output_without_spaces" != "$expected_output_without_spaces" ]; then
@@ -102,3 +103,4 @@ expected_output_without_spaces="SIZENAME.*txtSep1010:00./samples8787./samplesNA.
 
   [ "$output_without_spaces" = "$expected_output_without_spaces" ]
 }
+

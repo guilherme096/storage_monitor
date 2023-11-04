@@ -12,6 +12,7 @@ items=""
 regex=""
 date=""
 min_size=""
+#TODO: add flags to interface
 
 # get flags
 while getopts 'n:d:s:lr' opt; do
@@ -19,8 +20,8 @@ while getopts 'n:d:s:lr' opt; do
         n) n_flag=1; regex="$OPTARG";;
         d) d_flag=1; date="$OPTARG";;
         s) s_flag=1; min_size="$OPTARG";;
-        l) l_flag=1;;
         r) r_flag=1;;
+        l) l_flag=1;;
         \?) echo "Invalid option: -$OPTARG" >&2;; # TODO: stop program
     esac
 done
@@ -85,6 +86,10 @@ get_dirs(){
 
 # lists items in the items variable with their size
 list_items(){
+    #invert $items if -r flag is set
+    if [ "$r_flag" -eq 1 ]; then
+        items=$(echo "$items" | tac)
+    fi
     for item in $items; do
         size=''
         get_size $item
