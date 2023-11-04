@@ -1,6 +1,6 @@
 #!/bin/bash
 
-dir="./samples/"
+dir="${!#}"
 
 n_flag=0
 d_flag=0
@@ -47,13 +47,36 @@ interface(){
     echo "SIZE     NAME    $flags $regex $date $dir"
 }
 
+# checks the existance of the dir and whether it can be accessed
+check_dir_and_file(){
+    local target="$1"
+    if [ -e "$target" ]; then
+        if [ -d "$target" ]; then
+            return 0
+        fi
+    else
+        return 1
+    fi
+}
+
+# checks if the last arguments is a directory
+if [ $# -eq 0 ]; then
+    echo "No arguments provided."
+    exit 1
+else
+    check_dir_and_file "$dir"
+    if [ $? -ne 0 ]; then
+        echo "The directory does not exist or is not accessible."
+        exit 1
+    fi
+fi
+
 get_dirs(){
     if [ "$d_flag" -eq 1 ]; then
         items=$(find "$dir" -type d -newermt "$date")
     else
         items=$(find "$dir" -type d)
     fi
-
 }
 
 # lists items in the items variable with their size
