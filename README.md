@@ -23,7 +23,7 @@ You don't need to exit the terminal for changes in the code to be reflected in t
 
 - [x] **-n** - Seleção dos ficheiros a contabilizar;
 - [x] **-d** - Data máxima dos ficheiros a contabilizar;
-- [ ] **-s** - Tamanho mínimo dos ficheiros a contabilizar;
+- [x] **-s** - Tamanho mínimo dos ficheiros a contabilizar;
 - [ ] **-r** - Inverter a ordem de visualização;
 - [ ] **-a** - Ordenar por nome;
 - [ ] **-l** - Limite de linhas da tabela;
@@ -69,7 +69,7 @@ ocupado pelos ficheiros dessa diretoria deve ser assinalado com NA.
 - [ ] Lidar com cada Flag
   - [x] -n
   - [x] -d
-  - [ ] -s
+  - [x] -s
 
 #### Maria
 
