@@ -22,8 +22,8 @@ You don't need to exit the terminal for changes in the code to be reflected in t
 ## Usage
 
 - [x] **-n** - Seleção dos ficheiros a contabilizar;
-- [ ] **-d** - Data máxima dos ficheiros a contabilizar;
-- [ ] **-s** - Tamanho mínimo dos ficheiros a contabilizar;
+- [x] **-d** - Data máxima dos ficheiros a contabilizar;
+- [x] **-s** - Tamanho mínimo dos ficheiros a contabilizar;
 - [ ] **-r** - Inverter a ordem de visualização;
 - [ ] **-a** - Ordenar por nome;
 - [ ] **-l** - Limite de linhas da tabela;
@@ -68,7 +68,8 @@ ocupado pelos ficheiros dessa diretoria deve ser assinalado com NA.
 - [x] Verificar cada Flag
 - [ ] Lidar com cada Flag
   - [x] -n
-  - [ ] -d
+  - [x] -d
+  - [x] -s
 
 #### Maria
 

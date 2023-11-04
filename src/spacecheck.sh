@@ -11,13 +11,14 @@ l_flag=0
 items=""
 regex=""
 date=""
+min_size=""
 
 # get flags
-while getopts 'n:d:slr' opt; do
+while getopts 'n:d:s:lr' opt; do
     case $opt in
         n) n_flag=1; regex="$OPTARG";;
         d) d_flag=1; date="$OPTARG";;
-        s) s_flag=1;;
+        s) s_flag=1; min_size="$OPTARG";;
         l) l_flag=1;;
         r) r_flag=1;;
         \?) echo "Invalid option: -$OPTARG" >&2;; # TODO: stop program
@@ -33,6 +34,9 @@ get_size(){
     fi
     if [ -n "$date" ]; then
       find_command+=" -newermt \"$date\""
+    fi
+    if [ -n "$min_size" ]; then
+      find_command+=" -size +${min_size}c"
     fi
     files=$(eval "$find_command")
 
