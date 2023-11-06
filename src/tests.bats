@@ -104,3 +104,36 @@ expected_output_without_spaces="SIZENAME.*txtSep1010:00./samples8787./samplesNA.
   [ "$output_without_spaces" = "$expected_output_without_spaces" ]
 }
 
+@test "Alphabetic Order" {
+  run $executable -a -l 3 /var
+
+  [ "$status" -eq 0 ]
+
+  output_without_spaces=$(echo "$output" | tr -d '[:space:]')
+  expected_output_without_spaces="SIZENAME/var234383144/varNA/var/adm228130352/var/cache"
+
+
+  if [ "$output_without_spaces" != "$expected_output_without_spaces" ]; then
+    echo "$output"
+    echo "$expected_output_without_spaces"
+  fi
+
+  [ "$output_without_spaces" = "$expected_output_without_spaces" ]
+}
+
+@test "Limit number of lines" {
+  run $executable -l 2 samples
+
+  [ "$status" -eq 0 ]
+
+  output_without_spaces=$(echo "$output" | tr -d '[:space:]')
+  expected_output_without_spaces="SIZENAMEsamples605229samples397628samples/dir1"
+
+
+  if [ "$output_without_spaces" != "$expected_output_without_spaces" ]; then
+    echo "$output"
+    echo "$expected_output_without_spaces"
+  fi
+
+  [ "$output_without_spaces" = "$expected_output_without_spaces" ]
+}

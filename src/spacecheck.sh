@@ -6,22 +6,25 @@ n_flag=0
 d_flag=0
 s_flag=0
 r_flag=0
+a_flag=0
 l_flag=0
 
 items=""
 regex=""
 date=""
 min_size=""
+table_lines=0
 #TODO: add flags to interface
 
 # get flags
-while getopts 'n:d:s:lr' opt; do
+while getopts 'n:d:s:ral:' opt; do
     case $opt in
         n) n_flag=1; regex="$OPTARG";;
         d) d_flag=1; date="$OPTARG";;
         s) s_flag=1; min_size="$OPTARG";;
         r) r_flag=1;;
-        l) l_flag=1;;
+        a) a_flag=1;;
+        l) l_flag=1; table_lines=$OPTARG;;
         \?) echo "Invalid option: -$OPTARG" >&2;; # TODO: stop program
     esac
 done
@@ -39,7 +42,7 @@ get_size(){
     if [ -n "$min_size" ]; then
       find_command+=" -size +${min_size}c"
     fi
-    files=$(eval "$find_command")
+    files=$(eval "$find_command") 
 
     size="NA"
     if [ -n "$files" ]; then
@@ -90,7 +93,17 @@ list_items(){
     if [ "$r_flag" -eq 1 ]; then
         items=$(echo "$items" | tac)
     fi
+    if [ "$a_flag" -eq 1 ]; then
+        items=$(echo "$items" | sort)
+    fi
+
+    local count=0
     for item in $items; do
+        ((count++))
+        lines=$((table_lines+1))
+        if [ "$l_flag" -eq 1 ] && [ $count -ge $lines ]; then
+            break
+        fi
         size=''
         get_size $item
         echo -e "$size\t$item" 
