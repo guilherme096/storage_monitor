@@ -79,4 +79,11 @@ ocupado pelos ficheiros dessa diretoria deve ser assinalado com NA.
 - [x] -a flag
 - [x] -l flag
 
+## TODO:
+
+- Lidar dir com espaços
+- Editar cabeçalho
+  - Data
+  - Opções
+
 ## Inicio de escrita do relatório
