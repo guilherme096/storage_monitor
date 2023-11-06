@@ -24,7 +24,7 @@ while getopts 'n:d:s:ral:' opt; do
         s) s_flag=1; min_size="$OPTARG";;
         r) r_flag=1;;
         a) a_flag=1;;
-        l) l_flag=1; echo "Setting table_lines to $OPTARG"; table_lines=$OPTARG;;
+        l) l_flag=1; table_lines=$OPTARG;;
         \?) echo "Invalid option: -$OPTARG" >&2;; # TODO: stop program
     esac
 done
