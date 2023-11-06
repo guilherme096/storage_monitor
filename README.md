@@ -73,7 +73,9 @@ ocupado pelos ficheiros dessa diretoria deve ser assinalado com NA.
 
 #### Maria
 
-- [ ] Receber diretorio como argumento
-- [ ] Lidar com diretorios não existentes
+- [x] Receber diretorio como argumento
+- [x] Lidar com diretorios não existentes
+- [x] -a flag
+- [ ] -l flag
 
 ## Inicio de escrita do relatório
