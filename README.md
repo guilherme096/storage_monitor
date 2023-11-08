@@ -25,8 +25,8 @@ You don't need to exit the terminal for changes in the code to be reflected in t
 - [x] **-d** - Data máxima dos ficheiros a contabilizar;
 - [x] **-s** - Tamanho mínimo dos ficheiros a contabilizar;
 - [x] **-r** - Inverter a ordem de visualização;
-- [ ] **-a** - Ordenar por nome;
-- [ ] **-l** - Limite de linhas da tabela;
+- [X] **-a** - Ordenar por nome;
+- [X] **-l** - Limite de linhas da tabela;
 
 ## Resources
 
@@ -82,8 +82,10 @@ ocupado pelos ficheiros dessa diretoria deve ser assinalado com NA.
 ## TODO:
 
 - Lidar dir com espaços
+- Lidar com vários dirs
 - Editar cabeçalho
-  - Data
+  ~~- Data~~
   - Opções
+- Listar as opções diposniveis(opcional)
 
 ## Inicio de escrita do relatório
