@@ -85,5 +85,6 @@ ocupado pelos ficheiros dessa diretoria deve ser assinalado com NA.
 - Editar cabeçalho
   - Data
   - Opções
+- Guardar logs em file
 
 ## Inicio de escrita do relatório

@@ -110,8 +110,9 @@ list_items(){
     done
 }
 
+
 main(){
-    interface
+    interface 
     get_dirs
     list_items
 }
