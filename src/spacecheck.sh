@@ -52,7 +52,8 @@ get_size(){
 
 # interface
 interface(){
-    echo "SIZE     NAME    $flags $regex $date $dir"
+    current_date=$(date +%Y%m%d)
+    echo "SIZE     NAME     $current_date   $flags $regex $date $dir"
 }
 
 # checks the existance of the dir and whether it can be accessed
