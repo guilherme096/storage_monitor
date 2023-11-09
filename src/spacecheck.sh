@@ -1,6 +1,7 @@
 #!/bin/bash
 
 dir="${!#}"
+current_date=$(date +%Y%m%d)
 
 n_flag=0
 d_flag=0
@@ -9,17 +10,17 @@ r_flag=0
 a_flag=0
 l_flag=0
 
+flags=""
 items=""
 regex=""
 date=""
 min_size=""
 table_lines=0
-#TODO: add flags to interface
 
 # get flags
 while getopts 'n:d:s:ral:' opt; do
     case $opt in
-        n) n_flag=1; regex="$OPTARG";;
+        n) n_flag=1; regex="$OPTARG";; 
         d) d_flag=1; date="$OPTARG";;
         s) s_flag=1; min_size="$OPTARG";;
         r) r_flag=1;;
@@ -52,7 +53,6 @@ get_size(){
 
 # interface
 interface(){
-    current_date=$(date +%Y%m%d)
     echo "SIZE     NAME     $current_date   $flags $regex $date $dir"
 }
 
@@ -117,4 +117,4 @@ main(){
     get_dirs
     list_items
 }
-main
+main >> "spacecheck_$current_date"
