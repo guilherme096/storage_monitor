@@ -84,8 +84,8 @@ ocupado pelos ficheiros dessa diretoria deve ser assinalado com NA.
 - Lidar dir com espaços
 - Lidar com vários dirs
 - Editar cabeçalho
-  ~~- Data~~
-  - Opções
+  - ~~- Data~~
+  - ~~-Opções~~
 - Listar as opções diposniveis(opcional)
 
 ## Inicio de escrita do relatório

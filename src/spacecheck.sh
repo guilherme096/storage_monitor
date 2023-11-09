@@ -9,6 +9,8 @@ r_flag=0
 a_flag=0
 l_flag=0
 
+flags=""
+
 items=""
 regex=""
 date=""
@@ -19,12 +21,12 @@ table_lines=0
 # get flags
 while getopts 'n:d:s:ral:' opt; do
     case $opt in
-        n) n_flag=1; regex="$OPTARG";;
-        d) d_flag=1; date="$OPTARG";;
-        s) s_flag=1; min_size="$OPTARG";;
-        r) r_flag=1;;
-        a) a_flag=1;;
-        l) l_flag=1; table_lines=$OPTARG;;
+        n) n_flag=1; regex="$OPTARG"; flags+=" -n";;
+        d) d_flag=1; date="$OPTARG"; flags+=" -d";;
+        s) s_flag=1; min_size="$OPTARG"; flags+=" -s";;
+        r) r_flag=1; flags+=" -r";;
+        a) a_flag=1; flags+=" -a";;
+        l) l_flag=1; table_lines=$OPTARG; flags+=" -l";;
         \?) echo "Invalid option: -$OPTARG" >&2;; # TODO: stop program
     esac
 done
@@ -34,7 +36,7 @@ get_size(){
   item=$1
     find_command="find \"$item\" -type f"
     if [ -n "$regex" ]; then
-        find_command+=" -regex \"$regex\""
+      find_command+=" -regex \"$regex\""
     fi
     if [ -n "$date" ]; then
       find_command+=" -newermt \"$date\""
@@ -53,7 +55,7 @@ get_size(){
 # interface
 interface(){
     current_date=$(date +%Y%m%d)
-    echo "SIZE     NAME     $current_date   $flags $regex $date $dir"
+    echo "SIZE     NAME     $current_date   $flags $regex $date $min_size $table_lines $dir"
 }
 
 # checks the existance of the dir and whether it can be accessed
