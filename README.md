@@ -88,4 +88,14 @@ ocupado pelos ficheiros dessa diretoria deve ser assinalado com NA.
   - ~~-Opções~~
 - Listar as opções diposniveis(opcional)
 
+### Spacerate
+
+- [x]Verifcar se são colocados 2 argumentos
+- [x]Verificar se os ficheiros existem
+- Comparar os ficheiros
+  - [x] Adicionar oo contudo de cada ficheiro a um array associativo
+  - [x] Calcular as difrenças de size (está a fazer mal as contas)
+  - [x] Verificar se há novos dirs -> marcar como NEW
+  - [x] Verificar se há dirs que foram apagados -> marcar como REMOVED
+- [ ] Ordernar o output usando -a flag e -r flag
 ## Inicio de escrita do relatório
