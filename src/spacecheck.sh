@@ -1,6 +1,11 @@
 #!/bin/bash
 
-dir="${!#}"
+opts_number=0
+arglen=$#
+dirs=""
+n_dirs=0
+
+
 current_date=$(date +%Y%m%d)
 
 n_flag=0
@@ -21,15 +26,18 @@ table_lines=0
 # get flags
 while getopts 'n:d:s:ral:' opt; do
     case $opt in
-        n) n_flag=1; regex="$OPTARG"; flags+=" -n";;
-        d) d_flag=1; date="$OPTARG"; flags+=" -d";;
-        s) s_flag=1; min_size="$OPTARG"; flags+=" -s";;
-        r) r_flag=1; flags+=" -r";;
-        a) a_flag=1; flags+=" -a";;
-        l) l_flag=1; table_lines=$OPTARG; flags+=" -l";;
+        n) n_flag=1; regex="$OPTARG"; flags+=" -n"; opts_number=$((opts_number+2));;
+        d) d_flag=1; date="$OPTARG"; flags+=" -d";opts_number=$((opts_number+2));;
+        s) s_flag=1; min_size="$OPTARG"; flags+=" -s";opts_number=$((opts_number+2));;
+        r) r_flag=1; flags+=" -r";opts_number=$((opts_number+1));;
+        a) a_flag=1; flags+=" -a";opts_number=$((opts_number+1));;
+        l) l_flag=1; table_lines=$OPTARG; flags+=" -l";opts_number=$((opts_number+2));;
         \?) echo "Invalid option: -$OPTARG" >&2;; # TODO: stop program
     esac
 done
+
+n_dirs=$((arglen-opts_number))
+dirs=${@:$opts_number+1:$n_dirs}
 
 # gets the size of one item
 get_size(){
@@ -70,23 +78,12 @@ check_dir_and_file(){
     fi
 }
 
-# checks if the last arguments is a directory
-if [ $# -eq 0 ]; then
-    echo "No arguments provided."
-    exit 1
-else
-    check_dir_and_file "$dir"
-    if [ $? -ne 0 ]; then
-        echo "The directory does not exist or is not accessible."
-        exit 1
-    fi
-fi
 
 get_dirs(){
     if [ "$d_flag" -eq 1 ]; then
-        items=$(find "$dir" -type d -newermt "$date")
+        items+=$(find "$dir" -type d -newermt "$date")
     else
-        items=$(find "$dir" -type d)
+        items+=$(find "$dir" -type d)
     fi
 }
 
@@ -116,7 +113,15 @@ list_items(){
 
 main(){
     interface 
-    get_dirs
+    for dir in $dirs; do
+        check_dir_and_file "$dir"
+        if [ $? -ne 0 ]; then
+            echo "The directory does not exist or is not accessible."
+            exit 1
+        fi
+        get_dirs
+    done
     list_items
 }
 main >> "spacecheck_$current_date"
+cat "spacecheck_$current_date"

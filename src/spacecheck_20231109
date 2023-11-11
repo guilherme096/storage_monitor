@@ -1,4 +1,17 @@
-SIZE     NAME     20231109    .*pdf  samples
+SIZE     NAME     20231109    -n .*pdf   0 samples
 596442	samples
 397628	samples/dir1
 198814	samples/dir1/sub1
+SIZE     NAME     20231109    -n .*pdf   0 samples
+596442	samples
+397628	samples/dir1
+198814	samples/dir1/sub1
+2
+SIZE     NAME     20231109    -n .*pdf   0 samples
+596442	samples
+397628	samples/dir1
+198814	samples/dir1/sub1
+4
+SIZE     NAME     20231109    -n -l .*pdf   2 samples
+596442	samples
+397628	samples/dir1
