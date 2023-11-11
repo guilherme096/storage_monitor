@@ -31,6 +31,43 @@ while getopts 'n:d:s:ral:' opt; do
     esac
 done
 
+validate_date(){
+    local date="$1"
+    local months=("Jan" "Feb" "Mar" "Apr" "May" "Jun" "Jul" "Aug" "Sep" "Oct" "Nov" "Dec")
+    local days_in_month=(31 28 31 30 31 30 31 31 30 31 30 31)
+
+    if [ -n "$date" ]; then
+        local date_array=($date)
+        month=${date_array[0]}
+        day=${date_array[1]}
+        time=${date_array[2]}
+
+        if [ ${#date_array[@]} -lt 2 ] || [ ${#date_array[@]} -gt 3 ]; then
+            echo "Invalid date format: $date"
+            exit 1
+        fi
+
+        if [[ " ${months[*]} " != *" $month "* ]]; then
+            echo "Invalid month: $month"
+            exit 1
+        fi
+
+        if (($day < 1 || $day > ${days_in_month[${#months[@]}-1]})); then
+            echo "Invalid day for month $month: $day"
+            exit 1
+        fi
+
+        # Check if the time is in the format HH:MM
+        if [ -n "$time" ]; then
+            # Check if the time is in the format HH:MM
+            if ! [[ "$time" =~ ^([01]?[0-9]|2[0-3]):[0-5][0-9]$ ]]; then
+                echo "Invalid time format: $time"
+                exit 1
+            fi
+        fi
+    fi
+}
+
 # gets the size of one item
 get_size(){
   item=$1
@@ -38,7 +75,7 @@ get_size(){
     if [ -n "$regex" ]; then
       find_command+=" -regex \"$regex\""
     fi
-    if [ -n "$date" ]; then
+    if [ -n "$date" ] && validate_date "$date"; then
       find_command+=" -newermt \"$date\""
     fi
     if [ -n "$min_size" ]; then
