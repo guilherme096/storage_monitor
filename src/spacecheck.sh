@@ -14,7 +14,7 @@ flags=""
 
 items=""
 regex=""
-date=""
+flag_date=""
 min_size=""
 table_lines=0
 
@@ -22,7 +22,7 @@ table_lines=0
 while getopts 'n:d:s:ral:' opt; do
     case $opt in
         n) n_flag=1; regex="$OPTARG"; flags+=" -n";;
-        d) d_flag=1; date="$OPTARG"; flags+=" -d";;
+        d) d_flag=1; flag_date="$OPTARG"; flags+=" -d";;
         s) s_flag=1; min_size="$OPTARG"; flags+=" -s";;
         r) r_flag=1; flags+=" -r";;
         a) a_flag=1; flags+=" -a";;
@@ -31,7 +31,108 @@ while getopts 'n:d:s:ral:' opt; do
     esac
 done
 
+if [ "$s_flag" -eq 1 ] && { [ -z "$min_size" ] || [ "$min_size" -lt 0 ]; }; then
+    echo "Invalid size: $min_size"
+    exit 1
+fi
+if [ "$l_flag" -eq 1 ] && { [ -z "$table_lines" ] || [ "$table_lines" -lt 0 ]; }; then
+    echo "Invalid line size: $table_lines"
+    exit 1
+fi
+
+
+
+get_size(){
+    local dir="$1"
+    local find_command="find \"$dir\" -type f"
+    
+    # check if the directory is accessible
+    if [ ! -r "$dir" ] || [ ! -x "$dir" ]; then
+        echo "NA"
+        return
+    fi
+
+    if [ -n "$regex" ]; then
+        find_command+=" -regex \"$regex\""
+    fi
+    if [ -n "$flag_date" ]; then
+        find_command+=" -newermt \"$flag_date\""
+    fi
+
+    local total_size=0
+    local file_size
+    local error_occurred=0
+
+    # execute find command and handle each file
+    while IFS= read -r file; do
+        # check if the file is readable
+        if [ ! -r "$file" ]; then
+            error_occurred=1
+            break
+        fi
+
+        file_size=$(du -b "$file" 2>/dev/null | awk '{print $1}')
+        if [ -z "$file_size" ]; then
+            continue
+        fi
+
+        if [ -z "$min_size" ] || [ "$file_size" -ge "$min_size" ]; then
+            total_size=$((total_size + file_size))
+        fi
+    done < <(eval "$find_command" 2>&1)
+
+    if ([ "$error_occurred" -eq 1 ] || [[ $(eval "$find_command" 2>&1) == *"Permission denied"* ]]); then
+        echo "NA"
+    else
+        echo "$total_size"
+    fi
+}
+
+
+get_dirs(){
+    local dir="$1"
+    local dir_items
+
+    #get dirs, and remove './' prefix
+    dir_items=$(find "$dir" -type d 2>/dev/null | sed 's|^./||')
+    if [ -n "$dir_items" ]; then
+        [ -n "$items" ] && items+=$'\n'
+        items+="$dir_items"
+    fi
+}
+
+# lists items 
+list_items(){
+    interface
+    local count=0
+
+    if [ "$a_flag" -eq 1 ]; then
+        items=$(echo -e "$items" | sort)
+    fi
+    if [ "$r_flag" -eq 1 ]; then
+        items=$(echo -e "$items" | sort -r)
+    fi
+
+    # process each directory
+    echo -e "$items" | while IFS= read -r dir; do
+        ((count++))
+        if [ "$l_flag" -eq 1 ] && [ $count -gt $table_lines ]; then
+            break
+        fi
+
+        size=$(get_size "$dir")
+
+        echo -e "$size\t$dir"
+    done
+}
+
+# remove flags from arguments to parse dirs
+shift $((OPTIND -1))
+
 validate_date(){
+    if [ $d_flag -eq 0 ]; then
+        return 0
+    fi
     local date="$1"
     local months=("Jan" "Feb" "Mar" "Apr" "May" "Jun" "Jul" "Aug" "Sep" "Oct" "Nov" "Dec")
     local days_in_month=(31 28 31 30 31 30 31 31 30 31 30 31)
@@ -57,9 +158,8 @@ validate_date(){
             exit 1
         fi
 
-        # Check if the time is in the format HH:MM
         if [ -n "$time" ]; then
-            # Check if the time is in the format HH:MM
+
             if ! [[ "$time" =~ ^([01]?[0-9]|2[0-3]):[0-5][0-9]$ ]]; then
                 echo "Invalid time format: $time"
                 exit 1
@@ -68,92 +168,42 @@ validate_date(){
     fi
 }
 
-# gets the size of one item
-get_size(){
-  item=$1
-    find_command="find \"$item\" -type f"
-    if [ -n "$regex" ]; then
-      find_command+=" -regex \"$regex\""
-    fi
-    if [ -n "$date" ] && validate_date "$date"; then
-      find_command+=" -newermt \"$date\""
-    fi
-    if [ -n "$min_size" ]; then
-      find_command+=" -size +${min_size}c"
-    fi
-    files=$(eval "$find_command") 
 
-    size="NA"
-    if [ -n "$files" ]; then
-        size=$(echo "$files" | xargs du -b | awk '{sum+=$1} END {print sum}')
-    fi
-}
-
-# interface
 interface(){
     current_date=$(date +%Y%m%d)
-    echo "SIZE     NAME     $current_date   $flags $regex $date $min_size $table_lines $dir"
-}
-
-# checks the existance of the dir and whether it can be accessed
-check_dir_and_file(){
-    local target="$1"
-    if [ -e "$target" ]; then
-        if [ -d "$target" ]; then
-            return 0
-        fi
-    else
-        return 1
-    fi
-}
-
-# checks if the last arguments is a directory
-if [ $# -eq 0 ]; then
-    echo "No arguments provided."
-    exit 1
-else
-    check_dir_and_file "$dir"
-    if [ $? -ne 0 ]; then
-        echo "The directory does not exist or is not accessible."
-        exit 1
-    fi
-fi
-
-get_dirs(){
-    if [ "$d_flag" -eq 1 ]; then
-        items=$(find "$dir" -type d -newermt "$date")
-    else
-        items=$(find "$dir" -type d)
-    fi
-}
-
-# lists items in the items variable with their size
-list_items(){
-    #invert $items if -r flag is set
+    base="SIZE     NAME     $current_date "
     if [ "$r_flag" -eq 1 ]; then
-        items=$(echo "$items" | tac)
+        base+="-r "
     fi
     if [ "$a_flag" -eq 1 ]; then
-        items=$(echo "$items" | sort)
+        base+="-a "
     fi
-
-    local count=0
-    for item in $items; do
-        ((count++))
-        lines=$((table_lines+1))
-        if [ "$l_flag" -eq 1 ] && [ $count -ge $lines ]; then
-            break
-        fi
-        size=''
-        get_size $item
-        echo -e "$size\t$item" 
-    done
+    if [ "$s_flag" -eq 1 ]; then
+        base+="-s $min_size "
+    fi
+    if [ "$d_flag" -eq 1 ]; then
+        base+="-d \"$flag_date\" "
+    fi
+    if [ "$n_flag" -eq 1 ]; then
+        base+="-n \"$regex\" "
+    fi
+    if [ "$l_flag" -eq 1 ]; then
+         base+="-l $table_lines "
+    fi
+    echo "$base $dirs"
 }
 
 
-main(){
-    interface 
-    get_dirs
-    list_items
-}
-main >> "spacecheck_$current_date"
+if ! validate_date "$flag_date" ; then
+    exit 1
+fi
+
+dirs="$@"
+for dir in "$@"; do
+    get_dirs "$dir"
+done
+
+
+output_file="spacecheck_$current_date"
+
+list_items | tee "$output_file"
