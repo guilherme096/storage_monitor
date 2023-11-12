@@ -1,5 +1,34 @@
 #!/bin/bash
 
+r_flag=0
+a_flag=0
+
+# list available options
+usage() {
+    echo "-------------------------------------------------------------------"
+    echo "spacerate.sh -r | -a <file1> <file2>"
+    echo
+    echo "OPÇÕES DISPONÍVEIS:"
+    echo
+    echo "  -r  : Ordena a saída em ordem decrescente de tamanho"
+    echo "  -a  : Ordena a saída em ordem alfabética"
+    echo "  -h  : Mostra a ajuda"
+   echo "-------------------------------------------------------------------" 
+}
+# Process the flags
+while getopts 'rah' opt; do
+    case $opt in
+        r) r_flag=1 ;;
+        a) a_flag=1 ;;
+        h) usage; exit 0 ;;
+        \?) echo "Invalid option: -$OPTARG" >&2
+            exit 1 ;;
+    esac
+done
+
+# Shift off the options and flags
+shift $((OPTIND - 1))
+
 # Check if two input files are provided
 if [ $# -ne 2 ]; then
     echo "Two input files are required."
@@ -60,5 +89,11 @@ for name in "${!file2_dirs[@]}"; do
     fi
 done
 
-# Trim leading and trailing newlines, then sort and output results
-echo -e "$output" | awk 'NF' | sort -k1,1nr
+# Output results based on flags
+if [ "$r_flag" -eq 1 ]; then
+    echo -e "$output" | awk 'NF' | sort -k1,1nr | tac
+elif [ "$a_flag" -eq 1 ]; then
+    echo -e "$output" | awk 'NF' | sort -k2,2
+else
+    echo -e "$output" | awk 'NF' | sort -k1,1nr
+fi

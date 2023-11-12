@@ -98,5 +98,6 @@ ocupado pelos ficheiros dessa diretoria deve ser assinalado com NA.
   - [x] Calcular as difrenças de size (está a fazer mal as contas)
   - [x] Verificar se há novos dirs -> marcar como NEW
   - [x] Verificar se há dirs que foram apagados -> marcar como REMOVED
-- [ ] Ordernar o output usando -a flag e -r flag
+- [x] Ordernar o output usando -a flag e -r flag
+- [x] Interface
 ## Inicio de escrita do relatório
