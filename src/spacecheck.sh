@@ -18,8 +18,24 @@ flag_date=""
 min_size=""
 table_lines=0
 
+usage(){
+    echo "-------------------------------------------------------------------------------------"
+    echo "./spacecheck.sh [OPÇÕES] <diretório1> <diretório2> ... <diretórioN>"
+    echo
+    echo "OPÇÕES DISPONÍVEIS:"
+    echo
+    echo "  -n <regex>      : Lista apenas os arquivos que casam com a expressão regular"
+    echo "  -d <data>       : Lista apenas os arquivos modificados após a data especificada"
+    echo "  -s <tamanho>    : Lista apenas os arquivos maiores que o tamanho especificado"
+    echo "  -r              : Ordena a saída em ordem decrescente de tamanho"
+    echo "  -a              : Ordena a saída em ordem alfabética"
+    echo "  -l <linhas>     : Limita a saída a um número de linhas especificado"
+    echo "  -h              : Mostra a ajuda"
+    echo "-------------------------------------------------------------------------------------"
+}
+
 # get flags
-while getopts 'n:d:s:ral:' opt; do
+while getopts 'n:d:s:ral:h' opt; do
     case $opt in
         n) n_flag=1; regex="$OPTARG"; flags+=" -n";;
         d) d_flag=1; flag_date="$OPTARG"; flags+=" -d";;
@@ -27,6 +43,7 @@ while getopts 'n:d:s:ral:' opt; do
         r) r_flag=1; flags+=" -r";;
         a) a_flag=1; flags+=" -a";;
         l) l_flag=1; table_lines=$OPTARG; flags+=" -l";;
+        h) usage; exit 0;;
         \?) echo "Invalid option: -$OPTARG" >&2;; # TODO: stop program
     esac
 done
