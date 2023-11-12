@@ -1,3 +1,4 @@
+
 #!/bin/bash
 
 r_flag=0
@@ -50,21 +51,18 @@ declare -A file1_dirs
 declare -A file2_dirs
 
 # Read file1 into file1_dirs
-while IFS=' ' read -r size name rest; do
+while IFS=' ' read -r size name || [ -n "$size" ]; do
     if [[ -n $name ]] && [[ -n $size ]]; then
-        full_name="${name}${rest:+ $rest}"  # Concatenate name and rest
-        file1_dirs["$full_name"]=$size
+        file1_dirs["$name"]=$size
     fi
 done < <(tail -n +2 "$file1") # Skip first line
 
 # Read file2 into file2_dirs
-while IFS=' ' read -r size name rest; do
+while IFS=' ' read -r size name || [ -n "$size" ]; do
     if [[ -n $name ]] && [[ -n $size ]]; then
-        full_name="${name}${rest:+ $rest}"  # Concatenate name and rest
-        file2_dirs["$full_name"]=$size
+        file2_dirs["$name"]=$size
     fi
 done < <(tail -n +2 "$file2") # Skip first line
-
 
 output=""
 # Compare directories in file1 to those in file2
