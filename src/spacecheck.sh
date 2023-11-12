@@ -139,7 +139,7 @@ list_items(){
 
         size=$(get_size "$dir")
 
-        echo -e "$size\t$dir"
+        echo -e "$size $dir"
     done
 }
 
