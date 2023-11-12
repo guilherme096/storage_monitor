@@ -103,6 +103,7 @@ get_dirs(){
 
 # lists items 
 list_items(){
+    interface
     local count=0
 
     if [ "$a_flag" -eq 1 ]; then
@@ -198,7 +199,6 @@ if ! validate_date "$flag_date" ; then
 fi
 
 dirs="$@"
-interface 
 for dir in "$@"; do
     get_dirs "$dir"
 done

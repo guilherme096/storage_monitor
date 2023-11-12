@@ -1,7 +1,5 @@
-NA	samples
+SIZE     NAME     20231112 -s 1  samples test a1
+812830	samples
+198814	samples/workflows
 406415	samples/dir1
 207601	samples/dir1/sub 1
-66508	test a1
-40368	test a1/aaa
-7240	test a1/aaa/zzzz
-9544	test a1/rrr
