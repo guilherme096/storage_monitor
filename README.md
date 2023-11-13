@@ -1,5 +1,7 @@
 # Storage Management
 
+Desenvolvido no âmbito da unidade curricular Sistemas Operativos
+
 ## Funcionalidade
 
 Monitorizar o espaço ocupado em disco, e a sua variação ao longo do tempo,
@@ -35,10 +37,6 @@ You don't need to exit the terminal for changes in the code to be reflected in t
 - [bc](https://www.geeksforgeeks.org/bc-command-linux-examples/)
 - [du](https://www.geeksforgeeks.org/du-command-linux-examples/)
 - [getopts](https://www.stackchief.com/tutorials/Bash%20Tutorial%3A%20getopts)
-
-# Plano
-
-❌ Perceber o que é para fazer
 
 ## Iteração 1
 

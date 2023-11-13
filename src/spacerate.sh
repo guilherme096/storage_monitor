@@ -15,75 +15,74 @@ usage() {
     echo "  -h  : Mostra a ajuda"
    echo "-------------------------------------------------------------------" 
 }
-# Process the flags
+# process the flags
 while getopts 'rah' opt; do
     case $opt in
         r) r_flag=1 ;;
         a) a_flag=1 ;;
         h) usage; exit 0 ;;
-        \?) echo "Invalid option: -$OPTARG" >&2
+        \?) echo "Invalid option: -$OPTARG" >&2 # stop program
             exit 1 ;;
     esac
 done
 
-# Shift off the options and flags
+# shift the options so that the input files are the first arguments
 shift $((OPTIND - 1))
 
-# Check if two input files are provided
+# check if two input files are provided
 if [ $# -ne 2 ]; then
     echo "Two input files are required."
     exit 1
 fi
 
-# Assign input file names to variables
 file1="$1"  # Most recent file
 file2="$2"  # Older file
 
-# Check if the input files exist
-if [ ! -f "$file1" ] || [ ! -f "$file2" ]; then
+# check if the files exist
+if [ ! -f "$file1" ] || [ ! -f "$file2" ]; then 
     echo "Input files do not exist."
     exit 1
 fi
 
-# Declare associative arrays
 declare -A file1_dirs 
 declare -A file2_dirs
 
-# Read file1 into file1_dirs
+# read file1 into file1_dirs
 while IFS=' ' read -r size name rest; do
     if [[ -n $name ]] && [[ -n $size ]]; then
-        full_name="${name}${rest:+ $rest}"  # Concatenate name and rest
+        full_name="${name}${rest:+ $rest}"  # name + rest
         file1_dirs["$full_name"]=$size
     fi
-done < <(tail -n +2 "$file1") # Skip first line
+done < <(tail -n +2 "$file1") # skip first line
 
-# Read file2 into file2_dirs
+# read file2 into file2_dirs
 while IFS=' ' read -r size name rest; do
     if [[ -n $name ]] && [[ -n $size ]]; then
-        full_name="${name}${rest:+ $rest}"  # Concatenate name and rest
+        full_name="${name}${rest:+ $rest}"  # name + rest
         file2_dirs["$full_name"]=$size
     fi
-done < <(tail -n +2 "$file2") # Skip first line
+done < <(tail -n +2 "$file2") # skip first line
 
 
 output=""
-# Compare directories in file1 to those in file2
+# compare directories in file1 to those in file2
 for name in "${!file1_dirs[@]}"; do
     size1=${file1_dirs["$name"]}
     size2=${file2_dirs["$name"]}
     if [[ -z $size2 ]]; then
-        # Directory is new in file1
+        # directory in file1 and not in file2 (new directory)
         output+="${size1} $name NEW\n"
     elif [[ $size1 -ne $size2 ]]; then
+        # different size in both files
         diff_size=$((size1 - size2))
         output+="${diff_size} $name\n"
     else
-        # Same size in both files
+        # same size in both files
         output+="0 $name\n"
     fi
 done
 
-# Check for directories that are in file2 but not in file1 (removed directories)
+# check for directories that are in file2 but not in file1 (removed directories)
 for name in "${!file2_dirs[@]}"; do
     if [[ -z ${file1_dirs["$name"]} ]]; then
         size2=${file2_dirs["$name"]}
@@ -92,7 +91,7 @@ for name in "${!file2_dirs[@]}"; do
     fi
 done
 
-# Output results based on flags
+# sort the output
 if [ "$r_flag" -eq 1 ]; then
     echo -e "$output" | awk 'NF' | sort -k1,1nr | tac
 elif [ "$a_flag" -eq 1 ]; then
