@@ -7,16 +7,16 @@ l_flag=0
 table_lines=0
 # list available options
 usage() {
-    echo "-------------------------------------------------------------------"
+    echo "---------------------------------------------------------------"
     echo "spacerate.sh -r | -a | -l <file1> <file2>"
     echo
     echo "OPÇÕES DISPONÍVEIS:"
     echo
-    echo "  -r  : Ordena a saída em ordem decrescente de tamanho"
-    echo "  -a  : Ordena a saída em ordem alfabética"
-    echo "  -l  : Limita o número de linhas de saída"
-    echo "  -h  : Mostra a ajuda"
-   echo "-------------------------------------------------------------------" 
+    echo "  -r          : Ordena a saída em ordem decrescente de tamanho"
+    echo "  -a          : Ordena a saída em ordem alfabética"
+    echo "  -l <linhas> : Limita o número de linhas de saída"
+    echo "  -h          : Mostra a ajuda"
+    echo "----------------------------------------------------------------" 
 }
 # process the flags
 while getopts 'rahl:' opt; do
