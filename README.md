@@ -1,6 +1,6 @@
 # Storage Management
 
-Desenvolvido no âmbito da unidade curricular Sistemas Operativos
+Projeto desenvolvido no âmbito da unidade curricular Sistemas Operativos
 
 ## Funcionalidade
 
@@ -30,7 +30,7 @@ You don't need to exit the terminal for changes in the code to be reflected in t
 - [x] **-a** - Ordenar por nome;
 - [x] **-l** - Limite de linhas da tabela;
 
-## Resources
+## Development resources
 
 - [stat](https://www.geeksforgeeks.org/stat-command-in-linux-with-examples/)
 - [awk](https://www.cyberciti.biz/faq/bash-scripting-using-awk/)
@@ -64,7 +64,7 @@ ocupado pelos ficheiros dessa diretoria deve ser assinalado com NA.
 #### Gui
 
 - [x] Verificar cada Flag
-- [ ] Lidar com cada Flag
+- [x] Lidar com cada Flag
   - [x] -n
   - [x] -d
   - [x] -s
@@ -77,17 +77,7 @@ ocupado pelos ficheiros dessa diretoria deve ser assinalado com NA.
 - [x] -a flag
 - [x] -l flag
 
-## TODO:
-
-- Lidar dir com espaços
-- Lidar com vários dirs
-- Editar cabeçalho
-  - ~~Data~~
-  - ~~Opções~~
-- Listar as opções diposniveis(opcional)
-- Função validar data
-
-### Spacerate
+## Spacerate
 
 - [x]Verifcar se são colocados 2 argumentos
 - [x]Verificar se os ficheiros existem
@@ -98,4 +88,3 @@ ocupado pelos ficheiros dessa diretoria deve ser assinalado com NA.
   - [x] Verificar se há dirs que foram apagados -> marcar como REMOVED
 - [x] Ordernar o output usando -a flag e -r flag
 - [x] Interface
-## Inicio de escrita do relatório
