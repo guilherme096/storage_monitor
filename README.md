@@ -36,10 +36,6 @@ You don't need to exit the terminal for changes in the code to be reflected in t
 - [du](https://www.geeksforgeeks.org/du-command-linux-examples/)
 - [getopts](https://www.stackchief.com/tutorials/Bash%20Tutorial%3A%20getopts)
 
-# Plano
-
-❌ Perceber o que é para fazer
-
 ## Iteração 1
 
 ### Requisito
