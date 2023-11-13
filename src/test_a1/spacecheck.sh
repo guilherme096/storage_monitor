@@ -44,7 +44,7 @@ while getopts 'n:d:s:ral:h' opt; do
         a) a_flag=1; flags+=" -a";;
         l) l_flag=1; table_lines=$OPTARG; flags+=" -l";;
         h) usage; exit 0;;
-        \?) echo "Invalid option: -$OPTARG" >&2;; # TODO: stop program
+        \?) echo "Invalid option: -$OPTARG" >&2;;
     esac
 done
 
@@ -82,7 +82,6 @@ get_size(){
 
     # execute find command and handle each file
     while IFS= read -r file; do
-        # check if the file is readable
         if [ ! -r "$file" ]; then
             error_occurred=1
             break
@@ -98,6 +97,7 @@ get_size(){
         fi
     done < <(eval "$find_command" 2>&1)
 
+    # check for any permission errors
     if ([ "$error_occurred" -eq 1 ] || [[ $(eval "$find_command" 2>&1) == *"Permission denied"* ]]); then
         echo "NA"
     else
@@ -118,7 +118,6 @@ get_dirs(){
     fi
 }
 
-# lists items 
 list_items(){
     interface
     local count=0
@@ -133,12 +132,14 @@ list_items(){
     # process each directory
     echo -e "$items" | while IFS= read -r dir; do
         ((count++))
+        # stop after x lines if -l is 1
         if [ "$l_flag" -eq 1 ] && [ $count -gt $table_lines ]; then
             break
         fi
 
         size=$(get_size "$dir")
 
+        # print
         echo -e "$size $dir"
     done
 }
@@ -215,12 +216,15 @@ if ! validate_date "$flag_date" ; then
     exit 1
 fi
 
+# get paret dirs from arguments
 dirs="$@"
 for dir in "$@"; do
     get_dirs "$dir"
 done
 
 
+
 output_file="spacecheck_$current_date"
 
+# print output to file
 list_items | tee "$output_file"
