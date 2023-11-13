@@ -1,5 +1,7 @@
 # Storage Management
 
+Desenvolvido no âmbito da unidade curricular Sistemas Operativos
+
 ## Funcionalidade
 
 Monitorizar o espaço ocupado em disco, e a sua variação ao longo do tempo,
