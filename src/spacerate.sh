@@ -95,13 +95,11 @@ for name in "${!file2_dirs[@]}"; do
     fi
 done
 
-# Inicialmente, prepare a saída sem ordenação
 sorted_output=$(echo -e "$output" | awk 'NF')
 
-# Aplicar ordenação se as flags -r ou -a estão ativadas
+
 if [ "$r_flag" -eq 1 ] && [ "$a_flag" -eq 1 ]; then
-    # Se ambas -r e -a estão ativadas, escolha uma ordenação ou combine ambas
-    # Exemplo: Primeiro ordena por nome, depois por tamanho
+
     sorted_output=$(echo "$sorted_output" | sort -k2,2 | tac)
 elif [ "$r_flag" -eq 1 ]; then
     sorted_output=$(echo "$sorted_output" | sort -k1,1nr | tac)
@@ -109,11 +107,9 @@ elif [ "$a_flag" -eq 1 ]; then
     sorted_output=$(echo "$sorted_output" | sort -k2,2)
 fi
 
-# Aplicar limitação de linhas se -l está ativada
 if [ "$l_flag" -eq 1 ]; then
     sorted_output=$(echo "$sorted_output" | head -n $table_lines)
 fi
 
-# Exibir a saída final
 echo "SIZE NAME"
 echo "$sorted_output"
