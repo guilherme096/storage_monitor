@@ -2,24 +2,28 @@
 
 r_flag=0
 a_flag=0
+l_flag=0
 
+table_lines=0
 # list available options
 usage() {
     echo "-------------------------------------------------------------------"
-    echo "spacerate.sh -r | -a <file1> <file2>"
+    echo "spacerate.sh -r | -a | -l <file1> <file2>"
     echo
     echo "OPÇÕES DISPONÍVEIS:"
     echo
     echo "  -r  : Ordena a saída em ordem decrescente de tamanho"
     echo "  -a  : Ordena a saída em ordem alfabética"
+    echo "  -l  : Limita o número de linhas de saída"
     echo "  -h  : Mostra a ajuda"
    echo "-------------------------------------------------------------------" 
 }
 # process the flags
-while getopts 'rah' opt; do
+while getopts 'rahl:' opt; do
     case $opt in
         r) r_flag=1 ;;
         a) a_flag=1 ;;
+        l) l_flag=1; table_lines=$OPTARG;;
         h) usage; exit 0 ;;
         \?) echo "Invalid option: -$OPTARG" >&2 # stop program
             exit 1 ;;
@@ -91,11 +95,25 @@ for name in "${!file2_dirs[@]}"; do
     fi
 done
 
-# sort the output
-if [ "$r_flag" -eq 1 ]; then
-    echo -e "$output" | awk 'NF' | sort -k1,1nr | tac
+# Inicialmente, prepare a saída sem ordenação
+sorted_output=$(echo -e "$output" | awk 'NF')
+
+# Aplicar ordenação se as flags -r ou -a estão ativadas
+if [ "$r_flag" -eq 1 ] && [ "$a_flag" -eq 1 ]; then
+    # Se ambas -r e -a estão ativadas, escolha uma ordenação ou combine ambas
+    # Exemplo: Primeiro ordena por nome, depois por tamanho
+    sorted_output=$(echo "$sorted_output" | sort -k2,2 | tac)
+elif [ "$r_flag" -eq 1 ]; then
+    sorted_output=$(echo "$sorted_output" | sort -k1,1nr | tac)
 elif [ "$a_flag" -eq 1 ]; then
-    echo -e "$output" | awk 'NF' | sort -k2,2
-else
-    echo -e "$output" | awk 'NF' | sort -k1,1nr
+    sorted_output=$(echo "$sorted_output" | sort -k2,2)
 fi
+
+# Aplicar limitação de linhas se -l está ativada
+if [ "$l_flag" -eq 1 ]; then
+    sorted_output=$(echo "$sorted_output" | head -n $table_lines)
+fi
+
+# Exibir a saída final
+echo "SIZE NAME"
+echo "$sorted_output"
